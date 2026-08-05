@@ -4,6 +4,7 @@ import swaggerUi from "swagger-ui-express";
 import cookieParser from "cookie-parser";
 
 import { generateOpenApiDocument } from "./src/openapi.ts";
+import authRoutes from "./src/routes/auth.routes.ts";
 
 const app = express();
 
@@ -11,6 +12,9 @@ app.use(express.json());
 app.use(cookieParser());
 const openApiDocument = generateOpenApiDocument();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));
+
+// Маршрути автентифікації
+app.use("/auth", authRoutes);
 
 // 404 handler — має бути після всіх маршрутів
 app.use((_req: Request, res: Response) => {
