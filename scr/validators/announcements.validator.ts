@@ -11,7 +11,8 @@ export const AnnouncementIdParamsSchema = registry.register(
 export const AnnouncementsQuerySchema = registry.register(
   "AnnouncementsQuery",
   z.object({
-    search: z.string().min(1).max(50).optional(),
+    // Якщо параметр search відсутній або порожній — повертаємо всі оголошення (як в ТЗ)
+    search: z.string().max(50).optional(),
     sort: z.enum(["newest", "oldest"]).optional(),
     page: z.coerce.number().int().min(1).optional(),
   }),
