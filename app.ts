@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 import { generateOpenApiDocument } from "./src/openapi.ts";
 import authRoutes from "./src/routes/auth.routes.ts";
+import announcementsRoutes from "./src/routes/announcements.routes.ts";
 
 const app = express();
 
@@ -15,6 +16,9 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
 // Маршрути автентифікації
 app.use("/auth", authRoutes);
+
+// Маршрути оголошень
+app.use("/announcements", announcementsRoutes);
 
 // 404 handler — має бути після всіх маршрутів
 app.use((_req: Request, res: Response) => {
