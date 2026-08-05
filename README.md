@@ -1,6 +1,6 @@
-# REST API Дошки оголошень
+# Doska Announcements API
 
-REST API для дошки оголошень з JWT-автентифікацією, авторизацією та контролем доступу. Реалізовано в рамках курсового завдання магістратури.
+REST API для дошки оголошень з JWT-автентифікацією, авторизацією та контролем доступу.
 
 ## Загальний опис
 
@@ -38,20 +38,22 @@ npm install
 cp .env.example .env
 ```
 
-3. Налаштуйте `.env`:
+3. Запустіть PostgreSQL (через Docker):
 
-```env
-DATABASE_URL=postgresql://postgres:password@localhost:5432/announcements?schema=public
-JWT_SECRET=your-secret-key-at-least-256-bits-long
+```bash
+docker compose up -d
 ```
 
-4. Застосуйте міграцію:
+4. Налаштуйте `.env` (перевірте `DATABASE_URL` і `JWT_SECRET`).
+
+5. Застосуйте міграції та згенеруйте Prisma Client:
 
 ```bash
 npm run prisma:migrate
+npm run prisma:generate
 ```
 
-5. Запустіть проект:
+6. Запустіть проект:
 
 ```bash
 npm run dev
@@ -155,7 +157,7 @@ boilerplate/
 
 | Команда                   | Опис                                 |
 | ------------------------- | ------------------------------------ |
-| `npm run dev`             | Запуск з hot reload (`node --watch`) |
+| `npm run dev`             | Запуск з hot reload (`tsx --watch`)  |
 | `npm start`               | Запуск у виробничому режимі          |
 | `npm run prisma:migrate`  | Створення та застосування міграцій   |
 | `npm run prisma:generate` | Генерація Prisma Client              |

@@ -1,7 +1,7 @@
 {
-  "name": "Boilerplate-code",
+  "name": "doska-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "REST API для дошки оголошень (JWT + refresh tokens, Prisma, PostgreSQL).",
   "main": "index.js",
   "scripts": {
     "start": "tsx app.ts",

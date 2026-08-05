@@ -12,12 +12,12 @@ app.use(cookieParser());
 const openApiDocument = generateOpenApiDocument();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
-// 404 Not Found handler - must be after all routes
+// 404 handler — має бути після всіх маршрутів
 app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: "Not found" });
 });
 
-// Error handling middleware
+// Централізована обробка помилок
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err);
 
@@ -53,6 +53,6 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(
-    `Server is running on port ${PORT}: http://localhost:${PORT}/api-docs`,
+    `Сервер запущено на порту ${PORT}: http://localhost:${PORT}/api-docs`,
   );
 });

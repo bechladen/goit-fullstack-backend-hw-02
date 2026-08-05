@@ -21,9 +21,10 @@ export function generateOpenApiDocument() {
   return generator.generateDocument({
     openapi: "3.0.0",
     info: {
-      title: "Your API",
+      title: "Doska Announcements API",
       version: "1.0.0",
-      description: "REST API for your project",
+      description:
+        "JSON REST API для дошки оголошень з JWT (access+refresh), захистом маршрутів та контролем доступу.",
     },
     servers: [{ url: "http://localhost:3000" }],
   });
