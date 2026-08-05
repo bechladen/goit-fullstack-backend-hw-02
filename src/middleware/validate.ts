@@ -30,7 +30,10 @@ export const validateParams =
       });
     }
 
-    req.params = result.data;
+    // Express типізує params як ParamsDictionary (рядки),
+    // але після Zod (наприклад z.coerce.number()) тут можуть бути числа.
+    // Ми зберігаємо провалідовані значення в req.params і робимо приведення типу.
+    req.params = result.data as unknown as typeof req.params;
     next();
   };
 

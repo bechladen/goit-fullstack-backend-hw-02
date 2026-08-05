@@ -1,9 +1,8 @@
 import createHttpError from "http-errors";
-import type { Request, Response } from "express";
+import type { RequestHandler } from "express";
 
 import prisma from "../../prisma/client.ts";
 import type {
-  AnnouncementIdParams,
   AnnouncementsQuery,
   CreateAnnouncementBody,
   UpdateAnnouncementBody,
@@ -11,7 +10,7 @@ import type {
 
 const PER_PAGE = 10;
 
-export async function listAnnouncements(req: Request, res: Response) {
+export const listAnnouncements: RequestHandler = async (_req, res) => {
   const query = res.locals.query as AnnouncementsQuery | undefined;
 
   const search = query?.search;
@@ -64,12 +63,9 @@ export async function listAnnouncements(req: Request, res: Response) {
       perPage: PER_PAGE,
     },
   });
-}
+};
 
-export async function getAnnouncementById(
-  req: Request<AnnouncementIdParams>,
-  res: Response,
-) {
+export const getAnnouncementById: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);
 
   const announcement = await prisma.announcement.findUnique({
@@ -86,18 +82,15 @@ export async function getAnnouncementById(
   }
 
   res.status(200).json(announcement);
-}
+};
 
-export async function createAnnouncement(
-  req: Request<{}, {}, CreateAnnouncementBody>,
-  res: Response,
-) {
+export const createAnnouncement: RequestHandler = async (req, res) => {
   const userId = Number(req.user?.sub);
   if (!userId) {
     throw createHttpError(401, "Authentication required");
   }
 
-  const { title, description, price, category } = req.body;
+  const { title, description, price, category } = req.body as CreateAnnouncementBody;
 
   const announcement = await prisma.announcement.create({
     data: {
@@ -117,12 +110,9 @@ export async function createAnnouncement(
   });
 
   res.status(201).json(announcement);
-}
+};
 
-export async function updateAnnouncement(
-  req: Request<AnnouncementIdParams, {}, UpdateAnnouncementBody>,
-  res: Response,
-) {
+export const updateAnnouncement: RequestHandler = async (req, res) => {
   const userId = Number(req.user?.sub);
   if (!userId) {
     throw createHttpError(401, "Authentication required");
@@ -142,7 +132,7 @@ export async function updateAnnouncement(
     throw createHttpError(403, "Access denied");
   }
 
-  const { title, description, price, category } = req.body;
+  const { title, description, price, category } = req.body as UpdateAnnouncementBody;
 
   const updated = await prisma.announcement.update({
     where: { id },
@@ -160,12 +150,9 @@ export async function updateAnnouncement(
   });
 
   res.status(200).json(updated);
-}
+};
 
-export async function deleteAnnouncement(
-  req: Request<AnnouncementIdParams>,
-  res: Response,
-) {
+export const deleteAnnouncement: RequestHandler = async (req, res) => {
   const userId = Number(req.user?.sub);
   if (!userId) {
     throw createHttpError(401, "Authentication required");
@@ -188,5 +175,5 @@ export async function deleteAnnouncement(
   await prisma.announcement.delete({ where: { id } });
 
   res.status(204).end();
-}
+};
 

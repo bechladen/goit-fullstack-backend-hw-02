@@ -68,7 +68,7 @@ npm run dev
 | POST  | `/auth/register` | Реєстрація користувача        | Ні   |
 | POST  | `/auth/login`    | Вхід користувача              | Ні   |
 | POST  | `/auth/refresh`  | Оновлення токенів             | Ні   |
-| POST  | `/auth/logout`   | Вихід                         | Ні   |
+| POST  | `/auth/logout`   | Вихід                         | Так  |
 | GET   | `/auth/me`       | Профіль поточного користувача | Так  |
 
 ### Оголошення
@@ -110,6 +110,12 @@ npm run dev
 | `category`    | рядок, обов'язковий: `sale`, `service`, `job`, `other` |
 
 PATCH використовує ті ж правила валідації, але всі поля опціональні (хоча б одне має бути присутнє).
+
+## Тестування через .http (REST Client)
+
+У папці `requests/` є готові запити:
+- `requests/auth.http`
+- `requests/announcements.http`
 
 ## Структура проекту
 

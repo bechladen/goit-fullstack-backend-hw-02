@@ -1,0 +1,35 @@
+### List (page=1, newest)
+GET http://localhost:3000/announcements?page=1&sort=newest
+
+### List (search)
+GET http://localhost:3000/announcements?search=ноутбук&page=1
+
+### Get by id
+GET http://localhost:3000/announcements/1
+
+### Create (вставте accessToken)
+POST http://localhost:3000/announcements
+Authorization: Bearer PASTE_ACCESS_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "title": "Продам велосипед",
+  "description": "Гірський велосипед, 21 швидкість",
+  "price": 8000,
+  "category": "sale"
+}
+
+### Update (вставте accessToken)
+PATCH http://localhost:3000/announcements/1
+Authorization: Bearer PASTE_ACCESS_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "price": 6500,
+  "title": "Продам велосипед терміново"
+}
+
+### Delete (вставте accessToken)
+DELETE http://localhost:3000/announcements/1
+Authorization: Bearer PASTE_ACCESS_TOKEN_HERE
+
