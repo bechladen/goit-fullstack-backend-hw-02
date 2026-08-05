@@ -19,3 +19,34 @@ export const validateBody =
     next();
   };
 
+export const validateParams =
+  <T extends z.ZodTypeAny>(schema: T) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    const result = schema.safeParse(req.params);
+    if (!result.success) {
+      return res.status(400).json({
+        error: "Invalid parameters",
+        details: z.flattenError(result.error).fieldErrors,
+      });
+    }
+
+    req.params = result.data;
+    next();
+  };
+
+export const validateQuery =
+  <T extends z.ZodTypeAny>(schema: T) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    const result = schema.safeParse(req.query);
+    if (!result.success) {
+      return res.status(400).json({
+        error: "Invalid query parameters",
+        details: z.flattenError(result.error).fieldErrors,
+      });
+    }
+
+    // Express типізує req.query як ParsedQs, тому зберігаємо провалідоване в res.locals
+    res.locals.query = result.data;
+    next();
+  };
+

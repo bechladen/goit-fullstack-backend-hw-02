@@ -154,3 +154,41 @@ export async function refresh(req: Request<{}, {}, RefreshBody>, res: Response) 
   });
 }
 
+export async function logout(req: Request, res: Response) {
+  const userId = Number(req.user?.sub);
+  if (!userId) {
+    throw createHttpError(401, "Authentication required");
+  }
+
+  // Вихід: інвалідуємо refresh token поточного користувача
+  await prisma.refreshToken.deleteMany({
+    where: { userId },
+  });
+
+  res.status(204).end();
+}
+
+export async function me(req: Request, res: Response) {
+  const userId = Number(req.user?.sub);
+  if (!userId) {
+    throw createHttpError(401, "Authentication required");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      name: true,
+      createdAt: true,
+    },
+  });
+
+  if (!user) {
+    throw createHttpError(401, "Authentication required");
+  }
+
+  res.status(200).json(user);
+}
+
